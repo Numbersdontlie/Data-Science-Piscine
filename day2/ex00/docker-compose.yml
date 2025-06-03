@@ -1,0 +1,38 @@
+services:
+  postgresql:
+    image: postgres:17
+    restart: always
+    container_name: postgresql
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ../.env
+    environment:
+      POSTGRES_DB: piscineds
+      POSTGRES_USER: lperez-h
+      POSTGRES_PASSWORD: mysecretpassword
+    networks:
+      - datascience_network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: lperez-h@admin.com
+      PGADMIN_DEFAULT_PASSWORD: mysecretpassword
+    depends_on:
+      - postgresql
+    networks:
+      - datascience_network
+
+volumes:
+  postgres_data:
+
+networks:
+  datascience_network:
+    driver: bridge
