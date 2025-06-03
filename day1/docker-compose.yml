@@ -10,9 +10,9 @@ services:
     env_file:
       - .env
     environment:
-      POSTGRES_DB: $POSTGRES_DB
-      POSTGRES_USER: $POSTGRES_USER
-      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_DB: piscineds
+      POSTGRES_USER: lperez-h
+      POSTGRES_PASSWORD: mysecretpassword
     networks:
       - datascience_network
 
