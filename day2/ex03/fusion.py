@@ -13,27 +13,24 @@ def main():
 			port=os.getenv('DB_PORT')
 	)
 	cur = conn.cursor()
-	# create the items table
-	cur.execute("DROP TABLE IF EXISTS tmp_items;")
-	cur.execute("""CREATE TABLE tmp_items (
-        product_id INT,
-        category_id BIGINT,
-        category_code TEXT,
-        brand TEXT
-    );""")
-	cur.execute("COPY tmp_items FROM '../data/item.csv' WITH (FORMAT csv);")
+	# create a query to join the customers and items tables on product_id
 	cur.execute("""
-        WITH base_rows AS (
-				SELECT DISTINCT product_id FROM tmp_items WHERE product_id IS NOT NULL 
-			)
-        SELECT
-            b.product_id,
-			(SELECT category_id FROM tmp_items WHERE product_id = b.product_id AND category_id IS NOT NULL LIMIT 1) AS category_id,
-			(SELECT category_code FROM tmp_items WHERE product_id = b.product_id AND category_code IS NOT NULL LIMIT 1) AS category_code, 
-			(SELECT brand FROM tmp_items WHERE product_id = b.product_id AND brand IS NOT NULL LIMIT 1) AS brand 
-		FROM base_records b;
-    """)
-	cur.execute("ALTER TABLE tmp_items RENAME TO items;")
+		CREATE TABLE tmp AS
+    	SELECT 
+			c.*, 
+			i.category_id,
+			i.category_code,
+			i.brand
+		FROM customers c
+		LEFT JOIN (
+			SELECT DISTINCT ON (product_id) *
+			FROM items
+			ORDER BY product_id 
+		) i ON c.product_id = i.product_id
+	""")
+	cur.execute("DROP TABLE customers;")
+	# set the tmp table as the final table: this one is deduplicated now
+	cur.execute("ALTER TABLE tmp RENAME TO customers;")
 	conn.commit()
 	cur.close()
 	conn.close()

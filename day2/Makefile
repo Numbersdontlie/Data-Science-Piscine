@@ -15,10 +15,26 @@ down:
 	docker compose -p $(NAME) down
 	echo "$(RED) $(NAME) DataBase was destroyed $(RESET)"
 
+# rule to create the database and tables
+create:
+	docker exec -i postgresql bash < ./ex00/load_db.sh 
+
+# rule for customer table
+customer:
+	python3 ex01/customers_table.py
+
+#rule for removing duplicates
+remove:
+	python3 ex02/remove_duplicates.py
+
+# rule for file fusion
+fusion:
+	python3 ex03/fusion.py
+
 # remove all data
 clean: down
-	docker compose -f docker-compose.yml rm -f
-	docker compose -f docker-compose.yml down --rmi all
+	docker compose -f ./ex00/docker-compose.yml rm -f
+	docker compose -f ./ex00/docker-compose.yml down --rmi all
 	echo "$(RED) Docker was cleaned, containers were destroyed BOOM! $(RESET)"
 
 # clean stopped containers
