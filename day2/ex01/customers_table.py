@@ -24,7 +24,8 @@ def main():
         user_id BIGINT,
         user_session UUID
     );""")
-    # create union query to load a single merged csv file into the table
+    # create union query to load a single merged csv file into the 
+    # we're using UNION ALL because we can keep all the rows (even if they are duplicates)
     cur.execute(""" INSERT INTO customers (
         SELECT * FROM data_2022_oct
         UNION ALL
