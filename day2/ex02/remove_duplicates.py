@@ -32,7 +32,7 @@ def main():
         FROM duplo
         WHERE prev_time IS NULL OR EXTRACT(EPOCH FROM (event_time - prev_time)) > 1
     )
-    SELECT * FROM filtered
+    SELECT event_time, event_type, product_id, price, user_id, user_session FROM filtered
 	""")
 	# delete the original table with duplicates
 	cur.execute("DROP TABLE customers;")

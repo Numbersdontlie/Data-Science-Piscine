@@ -25,6 +25,7 @@ def main():
 		LEFT JOIN (
 			SELECT DISTINCT ON (product_id) *
 			FROM items
+			WHERE category_id IS NOT NULL AND category_code IS NOT NULL AND brand IS NOT NULL
 			ORDER BY product_id 
 		) i ON c.product_id = i.product_id
 	""")

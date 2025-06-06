@@ -16,6 +16,7 @@ down:
 	echo "$(RED) $(NAME) DataBase was destroyed $(RESET)"
 
 # rule to create the database and tables
+# here i found an amazing use of redirections! thank you minishell :)
 create:
 	docker exec -i postgresql bash < ./ex00/load_db.sh 
 
