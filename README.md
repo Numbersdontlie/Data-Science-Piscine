@@ -23,3 +23,8 @@ Like always you give a look to the task and think it's easy, the challenge here 
  - Another challenge is  to deduplicate the customers table, some events may have a 1 second delay between rows due to the server signaling, so we would have the same event happening twice with 1 second of difference between them. -> for this one we may want to use our old and feared friends Window Function and Common Table Expressions 😨. 
  Since there was some delay between events I want to use LAG in the event_time colum and use the OVER statement in the other values to make sure I'm getting more unique records, we filter this result afterwards extracting the difference between events of 1 second. To deduplicate tables run `make customer`
  - The items table also have their own problem, there are rows that have some missing values for the same product_id and we need to decide how to deduplicate this table to join it later on with the customers. -> For this one we use a simple left join but inside of it we select uniques product_id. To fusionate the tables customers and items run `make fusion`
+
+ ## Day 3
+ In the second day after we have a clean and unified Dataset, then we're ready to do a first exploratory analysis of the data, the main goal of the module is to be on the shoes of a Data Analyst and generate some graphs. 
+
+ To generate the graph I'll keep working with **polars** since I really like the power on it and would like to master the tool. In top of that I'm using seaborn, plotlib and hvplot.
