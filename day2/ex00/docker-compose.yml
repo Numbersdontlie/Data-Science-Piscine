@@ -11,9 +11,9 @@ services:
     env_file:
       - ../.env
     environment:
-      POSTGRES_DB: piscineds
-      POSTGRES_USER: lperez-h
-      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     networks:
       - datascience_network
 
@@ -24,8 +24,8 @@ services:
     ports:
       - "5050:80"
     environment:
-      PGADMIN_DEFAULT_EMAIL: lperez-h@admin.com
-      PGADMIN_DEFAULT_PASSWORD: mysecretpassword
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     depends_on:
       - postgresql
     networks:
