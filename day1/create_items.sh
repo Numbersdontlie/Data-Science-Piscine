@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # define file and table parameters
-CSV_FILE="./subject/item/items.csv"
+CSV_FILE="../data/item/item.csv"
 TABLE_NAME="items"
 DELIMITER=","
 

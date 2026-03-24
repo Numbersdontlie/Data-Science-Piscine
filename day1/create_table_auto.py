@@ -5,7 +5,7 @@ import os
 import csv
 from io import StringIO
 
-CSV_DIR = "./subject/customer"
+CSV_DIR = "../data/customer/"
 
 # define column datatypes
 COLUMN_TYPES = {
