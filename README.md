@@ -12,7 +12,15 @@ To build the project run `make up` be aware that you may need to create your own
 
 After building the image the frontend should look like this:
 ![alt text](image.png)
-From here, we connect the database and then it should be ready to create tables on it to store and retrieve data as needed. 
+From here, we connect the database and then it should be ready to create tables on it to store and retrieve data as needed.
+
+For the loading of data, we'll be using the `create_table_auto.py` that will load all the csv files inside the customer directory into the database.
+
+**After revisiting the project couples of month later**
+After coming back to the project I decided to work with uv for learning about it and have a better project management tool. Some usefull commands to have in hand: 
+- 'uv venv' -> create the virtual environment
+- 'source .venv/bin/activate' -> activate the virtual environment
+- 'uv pip install psycopg2-binary' -> to install the psycopg2 inside the venv
 
 ## Day 2
 In the second day the challenge is to build a pipeline ETL process in which we need to join the previously loaded csv files and merge then into a single file considering removing the duplicates values. 
