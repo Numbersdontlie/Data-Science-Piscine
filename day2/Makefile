@@ -7,7 +7,7 @@ RESET=033[0m
 
 
 up: 
-	docker compose -p $(NAME) -f ./ex00/docker-compose.yml up
+	docker compose -p $(NAME) -f ../day2/ex00/docker-compose.yml up
 	echo "$(GREEN) PostgreSQL DataBase and pgAdmin created $(RESET)"
 
 # remove host entry in HOST_URL, also stop and remove containers
@@ -18,7 +18,9 @@ down:
 # rule to create the database and tables
 # here i found an amazing use of redirections! thank you minishell :)
 create:
-	docker exec -i postgresql bash < ./ex00/load_db.sh 
+	docker cp ./ex00/load_db.sh postgresql:/tmp/load_db.sh
+	docker cp ./ex00/.env postgresql:/tmp/.env
+	docker exec -i postgresql bash -c 'chmod +x /tmp/load_db.sh && /tmp/load_db.sh' 
 
 # rule for customer table
 customer:

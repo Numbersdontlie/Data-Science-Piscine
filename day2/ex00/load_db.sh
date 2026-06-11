@@ -1,24 +1,32 @@
 #!/bin/bash
+set -euo pipefail
 
-# Set environment variables (adjust these as needed in your Makefile)
-DB_NAME="${POSTGRES_DB}"
-DB_USER="${POSTGRES_USER}"
-DB_PASSWORD="${POSTGRES_PASSWORD}"
-DB_HOST="${DB_HOST}"
-DB_PORT="${DB_PORT}"
+# load .env from the directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ENV_FILE="$SCRIPT_DIR/.env"
+if [ -f "$ENV_FILE" ]; then
+	#export key-value lines from .env file
+	set -a
+	# shellcheck disable=SC1090
+	source "$ENV_FILE"
+	set +a
+else
+	echo "Error: .env file not found at $ENV_FILE"
+	exit 1
+fi
 
 # CSV files to import
 COPY_FILES=(
-    '/data/data_2022_oct.csv'
-    '/data/data_2022_nov.csv'
-    '/data/data_2022_dec.csv'
-    '/data/data_2023_jan.csv'
-    '/data/data_2023_feb.csv'
+    "/data/customer/data_2022_dec.csv"
+    "/data/customer/data_2022_nov.csv"
+    "/data/customer/data_2022_oct.csv"
+    "/data/customer/data_2023_feb.csv"
+    "/data/customer/data_2023_jan.csv"
 )
 
 # Execute SQL commands through psql
 psql_cmd() {
-    PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "$1"
+    PGPASSWORD="$POSTGRES_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "$1"
 }
 
 # Begin transaction
@@ -44,7 +52,7 @@ for file in "${COPY_FILES[@]}"; do
         user_session UUID
     );"
     # import csv into table
-	PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "\copy ${table_name} FROM '$file' WITH (FORMAT csv, HEADER true, DELIMITER ',', NULL '')"
+	PGPASSWORD="$POSTGRES_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "\copy ${table_name} FROM '$file' WITH (FORMAT csv, HEADER true, DELIMITER ',', NULL '')"
 	echo "Imported $file into $table_name."
 done
 
@@ -63,7 +71,7 @@ psql_cmd "CREATE TABLE items (
     brand TEXT
 );"
 
-PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "\copy items FROM '/data/item.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', NULL '')"
+PGPASSWORD="$POSTGRES_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "\copy items FROM '/data/item/item.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', NULL '')"
 
 # Commit transaction
 psql_cmd "COMMIT;"
