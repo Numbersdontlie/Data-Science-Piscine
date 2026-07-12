@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
-load_dotenv()
 import os
 import psycopg2
+load_dotenv(os.path.join(os.path.dirname(__file__), "../ex00/.env"), override=True)
 
 def main():
     """This function creates a unified customers table from CSV files, it creates a temporary unlogged table
