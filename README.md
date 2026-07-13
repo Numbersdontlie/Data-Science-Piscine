@@ -35,4 +35,6 @@ Like always you give a look to the task and think it's easy, the challenge here 
  ## Day 3
  In the second day after we have a clean and unified Dataset, then we're ready to do a first exploratory analysis of the data, the main goal of the module is to be on the shoes of a Data Analyst and generate some graphs. 
 
- To generate the graph I'll keep working with **polars** since I really like the power on it and would like to master the tool. In top of that I'm using seaborn, plotlib and hvplot.
+ To generate the graph I'll keep working with **polars** since I really like the power on it and would like to master the tool. In top of that I'm using matplotlib.
+
+ in the ex00 notebook there's the pie chart where only the purchase events are visualized
