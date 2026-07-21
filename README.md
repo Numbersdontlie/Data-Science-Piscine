@@ -33,8 +33,8 @@ Like always you give a look to the task and think it's easy, the challenge here 
  - The items table also have their own problem, there are rows that have some missing values for the same product_id and we need to decide how to deduplicate this table to join it later on with the customers. -> For this one we use a simple left join but inside of it we select uniques product_id. To fusionate the tables customers and items run `make fusion`
 
  ## Day 3
- In the second day after we have a clean and unified Dataset, then we're ready to do a first exploratory analysis of the data, the main goal of the module is to be on the shoes of a Data Analyst and generate some graphs. 
+ In the third day we assume the role of a data analyst. After we have a clean and unified Dataset, then we're ready to do a first exploratory analysis of the data, the main goal of the module is to generate some graphs and of course we'll need some aggregations to get the desired graphs 
 
- To generate the graph I'll keep working with **polars** since I really like the power on it and would like to master the tool. In top of that I'm using matplotlib.
+ To generate the graph We'll keep working with **polars** and matplotlib, simple and powerfull
 
  in the ex00 notebook there's the pie chart where only the purchase events are visualized
